@@ -1,52 +1,3 @@
-# Terraform Modules
-![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)
-
-Terraform modules for everything.
-
-My Custom Terraform Modules [here](https://registry.terraform.io/namespaces/iankesh).
-
-### Terraform Module to create Network Interface Controller in Microsoft Azure
-#### Tools Used
-- Terraform: Version 0.12.29
-- Azurerm provider: Version v2.20.0
-
-#### Parameters to pass
-| Parameters | Need | Description
-| ------ | ------ | ------ |
-source |(Required)|source of this module
-name|(Required)|name of the Security Group
-resource_group_name|(Required)|name of the Resorce Group
-vnet_name|(Reqiured)|The name of the virtual network
-subnet_name|(Required)|The name of subnet
-private_ip_allocation|(Required)|The allocation method for IP
-public_ip_name|(Reqiured)|The name of public Ip
-public_ip_id|(Required)|The id of public Ip
-env|(Optional)|name of the environment
-team_tag|(Optional)|tag a team
-creator|(Optional)|tag a creator
-
-#### Usage:
-###### Import existing Resource Group
-```terraform
-provider "azurerm" {
-  version = "=2.20.0"
-  features {}
-}
-
-module "az_network_interface" {
-  source                = "../terraform-azure-network-interface"
-  name                  = "ankesh-network-interface"
-  resource_group_name   = "ankesh-workspace"
-  vnet_name             = "ankesh-vnet"
-  subnet_name           = "ankesh-subnet"
-  private_ip_allocation = "Dynamic"
-  public_ip_id          = "/subscriptions/55b07678-705b-45fa-904c-346637b84794/resourceGroups/ankesh-workspace/providers/Microsoft.Network/publicIPAddresses/ankesh-public-ip"
-  public_ip_name        = "ankesh-public-ip"
-}
-```
-
-###### Create new Network Interface Controller using module
-```terraform
 provider "azurerm" {
   version = "=2.20.0"
   features {}
@@ -109,7 +60,7 @@ module "az_public_ip" {
 
 module "az_network_interface" {
   source                = "../terraform-azure-network-interface"
-  name                  = "ankesh-network-interface"
+  name                  = "ankesh-network-interface-prod"
   resource_group_name   = module.az_resource_group.az_rg_name
   vnet_name             = module.az_virtual_network.az_vnet_name
   subnet_name           = module.az_subnet.az_subnet_name
@@ -117,22 +68,27 @@ module "az_network_interface" {
   public_ip_id          = module.az_public_ip.az_public_ip_id
   public_ip_name        = module.az_public_ip.az_public_ip_name
 }
-```
 
-#### Terraform Execution:
-###### To initialize Terraform:
-```sh
-terraform init
-```
+output "azure_resource_group_id" {
+  value = module.az_resource_group.az_rg_id
+}
 
-###### To execute Terraform Plan:
-```sh
-terraform plan
-```
+output "azure_resource_group_name" {
+  value = module.az_resource_group.az_rg_name
+}
 
-###### To apply Terraform changes:
-```sh
-terraform apply
-```
+output "azure_vnet_id" {
+  value = module.az_virtual_network.vnet_id
+}
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+output "azure_vnet_name" {
+  value = module.az_virtual_network.vnet_name
+}
+
+output "azure_vnet_location" {
+  value = module.az_virtual_network.vnet_location
+}
+
+output "azure_vnet_address_space" {
+  value = module.az_virtual_network.vnet_address_space
+}
