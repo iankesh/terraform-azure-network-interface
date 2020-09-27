@@ -30,9 +30,9 @@ resource "azurerm_network_interface" "az_network_interface" {
     public_ip_address_id          = var.public_ip_id
   }
   tags = {
-    Region      = "data.azurerm_resource_group.azure_rg.location"
-    Team        = "var.team_tag"
-    Environment = "var.env"
-    Creator     = "var.creator"
+    Region      = data.azurerm_resource_group.azure_rg.location
+    Team        = var.team_tag
+    Environment = var.env
+    Creator     = var.creator
   }
 }
