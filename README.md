@@ -34,7 +34,7 @@ provider "azurerm" {
 }
 
 module "az_network_interface" {
-  source                = "../terraform-azure-network-interface"
+  source                = "iankesh/network-interface/azure"
   name                  = "ankesh-network-interface"
   resource_group_name   = "ankesh-workspace"
   vnet_name             = "ankesh-vnet"
@@ -53,7 +53,7 @@ provider "azurerm" {
 }
 
 module "az_resource_group" {
-  source   = "../terraform-azure-resource-group"
+  source   = "iankesh/resource-group/azure"
   name     = "ankesh-workspace"
   location = "westeurope"
   team_tag = "DevOps"
@@ -61,7 +61,7 @@ module "az_resource_group" {
 }
 
 module "az_virtual_network" {
-  source              = "../terraform-azure-virtual-network"
+  source              = "iankesh/virtual-network/azure"
   name                = "ankesh-vnet"
   resource_group_name = module.az_resource_group.az_rg_name
   address_space       = "10.0.2.0/24"
@@ -71,7 +71,7 @@ module "az_virtual_network" {
 }
 
 module "az_subnet" {
-  source              = "../terraform-azure-subnet"
+  source              = "iankesh/subnet/azure"
   name                = "ankesh-subnet"
   resource_group_name = module.az_resource_group.az_rg_name
   vnet_name           = module.az_virtual_network.az_vnet_name
@@ -79,7 +79,7 @@ module "az_subnet" {
 }
 
 module "az_security_group" {
-  source                              = "../terraform-azure-security-group"
+  source                              = "iankesh/security-group/azure"
   name                                = "ankesh-security-group"
   resource_group_name                 = module.az_resource_group.az_rg_name
   security_rule_name                  = "ankesh-security-rule"
@@ -97,7 +97,7 @@ module "az_security_group" {
 }
 
 module "az_public_ip" {
-  source              = "../terraform-azure-public-ip"
+  source              = "iankesh/public-ip/azure"
   name                = "ankesh-public-ip"
   resource_group_name = module.az_resource_group.az_rg_name
   allocation          = "Static"
@@ -108,7 +108,7 @@ module "az_public_ip" {
 }
 
 module "az_network_interface" {
-  source                = "../terraform-azure-network-interface"
+  source                = "iankesh/network-interface/azure"
   name                  = "ankesh-network-interface"
   resource_group_name   = module.az_resource_group.az_rg_name
   vnet_name             = module.az_virtual_network.az_vnet_name
